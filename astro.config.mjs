@@ -8,6 +8,7 @@ const { siteUrl } = siteConfig;
 // https://astro.build/config
 export default defineConfig({
   site: siteUrl,
+  base: 'feylo-demo',
   vite: {
     css: {
       preprocessorOptions: {

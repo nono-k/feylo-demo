@@ -1,0 +1,79 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <a href="" class="button">
+      Button
+      <span class="button__circle"></span>
+    </a>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .button {
+    --black: #000;
+    --hover-color: #fff;
+    --button-size:  280px;
+    position: relative;
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--black);
+    color: var(--black);
+    text-decoration: none;
+    overflow: hidden;
+    width: 100%;
+    max-width: var(--button-size);
+    text-align: center;
+    border-radius: 1.5rem;
+    z-index: 1;
+    transition-property: color;
+    transition-duration: 0.3s;
+    @include mixin.hover {
+      color: var(--hover-color);
+      .button__circle {
+        scale: 2;
+      }
+    }
+    &__circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--button-size);
+      aspect-ratio: 1;
+      background: var(--black);
+      border-radius: 50%;
+      scale: 0;
+      margin-top: -140px;
+      margin-left: -140px;
+      transform-origin: center center;
+      transition-property: scale;
+      transition-duration: 0.5s;
+      z-index: -1;
+    }
+  }
+</style>
+
+<script>
+  const button = document.querySelector('.button');
+  const buttonCircle = document.querySelector('.button__circle') as HTMLElement;
+
+  const mouseEnterLeave = (event: MouseEvent) => {
+    if (!button || !buttonCircle) return;
+
+    const x = event.offsetX;
+    const y = event.offsetY;
+    buttonCircle.style.translate = `${x}px ${y}px`;
+  }
+
+  button?.addEventListener('mouseenter', mouseEnterLeave);
+  button?.addEventListener('mouseleave', mouseEnterLeave);
+</script>
