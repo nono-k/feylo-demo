@@ -19,6 +19,7 @@ import Layout from '@/layouts/Layout.astro';
     justify-content: center;
     align-items: center;
     background: #fff;
+    padding-inline: 30px;
   }
   .button {
     --black: #000;
@@ -29,7 +30,6 @@ import Layout from '@/layouts/Layout.astro';
     padding: 0.75rem 1rem;
     border: 1px solid var(--black);
     color: var(--black);
-    text-decoration: none;
     overflow: hidden;
     width: 100%;
     max-width: var(--button-size);
@@ -53,9 +53,8 @@ import Layout from '@/layouts/Layout.astro';
       background: var(--black);
       border-radius: 50%;
       scale: 0;
-      margin-top: -140px;
-      margin-left: -140px;
-      transform-origin: center center;
+      margin-top: calc(-1 * var(--button-size) / 2);
+      margin-left: calc(-1 * var(--button-size) / 2);
       transition-property: scale;
       transition-duration: 0.5s;
       z-index: -1;
