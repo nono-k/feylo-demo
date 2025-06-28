@@ -19,3 +19,20 @@ const props = Astro.props;
 		<slot />
 	</body>
 </html>
+
+<style lang="scss">
+  body {
+    background: #fff;
+    &::-webkit-scrollbar {
+      width: 0.45rem;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      margin-block: 10.5rem;
+      background: rgba(255, 255, 255, 0.44);
+      border-radius: 3px;
+    }
+  }
+</style>
