@@ -9,7 +9,7 @@ import Layout from '@/layouts/Layout.astro';
       <button class="tab__button">Day</button>
       <button class="tab__button">Week</button>
       <button class="tab__button">Month</button>
-      <button class="tab__button">Year</button>
+      <button class="tab__button sp-none">Year</button>
     </div>
   </div>
 </Layout>
@@ -20,7 +20,7 @@ import Layout from '@/layouts/Layout.astro';
     height: 100vh;
     display: grid;
     place-items: center;
-    padding-inline: 30px;
+    padding-inline: 15px;
   }
 
   .tab {
@@ -37,6 +37,9 @@ import Layout from '@/layouts/Layout.astro';
       background: #E5E7EB;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       z-index: 1;
+      @include mixin.phone {
+        zoom: 0.8;
+      }
     }
     &__background {
       --background-width: calc(var(--button-width) - var(--offset-width) * 2);
@@ -53,6 +56,11 @@ import Layout from '@/layouts/Layout.astro';
     }
     &__button {
       width: var(--button-width);
+      &.sp-none {
+        @include mixin.phone {
+          display: none;
+        }
+      }
     }
   }
 </style>
