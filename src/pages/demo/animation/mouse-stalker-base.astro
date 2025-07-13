@@ -1,0 +1,50 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <div class="mouse-cursor"></div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .mouse-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #000;
+  }
+</style>
+
+<script>
+  import { Pane } from 'tweakpane';
+
+  const mouseCursor = document.querySelector('.mouse-cursor') as HTMLDivElement;
+
+  document.addEventListener('mousemove', (e) => {
+    const mouseRect = mouseCursor.getBoundingClientRect();
+    const mouseX = e.clientX - mouseRect.width / 2;
+    const mouseY = e.clientY - mouseRect.height / 2;
+
+    mouseCursor.style.translate = `${mouseX}px ${mouseY}px`;
+  })
+
+  const pane = new Pane();
+  const params = {
+    duration: 0,
+  };
+
+  pane.addBinding(params, 'duration', {
+    min: 0,
+    max: 1,
+    step: 0.01,
+  });
+
+  pane.on('change', (e) => {
+    mouseCursor.style.transitionDuration = `${e.value}s`;
+  })
+</script>
