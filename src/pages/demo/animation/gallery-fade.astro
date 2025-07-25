@@ -1,0 +1,92 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <button class="btn">再生</button>
+
+    <div class="card__wrapper">
+      {
+      Array.from({ length: 8 }, (_, i) => (
+        <div class="card">
+          <div class="card__img">
+            <img src={`https://picsum.photos/300/200?random=${i}`} alt="">
+          </div>
+          <div class="card__body">
+            <h2>タイトル0{i+1}</h2>
+            <p>Lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+          <div class="card__border"></div>
+        </div>
+      ))
+    }
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    margin-block: 2rem 5rem;
+    @include mixin.mobile {
+      margin-block: 40px;
+      padding-inline: 1rem;
+    }
+  }
+
+  .btn {
+    display: block;
+    width: fit-content;
+    margin-bottom: 3rem;
+    margin-inline: auto;
+    padding: 0.5rem 3.5rem;
+    border: 1px solid #e4e4e7;
+    border-radius: 0.5rem;
+    background: #F0A15E;
+  }
+
+  .card {
+    position: relative;
+    padding: 1rem;
+    border: 1px solid #e4e4e7;
+    border-radius: 0.5rem;
+    @include mixin.mobile {
+      padding: 0.5rem;
+    }
+    &__wrapper {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(4, 1fr);
+      @include mixin.mobile {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  const btn = document.querySelector('.btn');
+  const cards = document.querySelectorAll('.card');
+
+  btn.addEventListener('click', () => {
+    showFadeAnimation();
+  });
+
+  const showFadeAnimation = () => {
+    cards.forEach(card => {
+      gsap.set(card, { opacity: 0, y: 40 });
+    });
+
+    gsap.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.2,
+    });
+  };
+
+</script>
