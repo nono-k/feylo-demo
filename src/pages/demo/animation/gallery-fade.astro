@@ -32,20 +32,24 @@ import Layout from '@/layouts/Layout.astro';
     padding-inline: 2rem;
     margin-block: 2rem 5rem;
     @include mixin.mobile {
-      margin-block: 40px;
       padding-inline: 1rem;
+      margin-block: 1rem 3rem;
     }
   }
 
   .btn {
     display: block;
     width: fit-content;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     margin-inline: auto;
     padding: 0.5rem 3.5rem;
     border: 1px solid #e4e4e7;
     border-radius: 0.5rem;
     background: #F0A15E;
+    @include mixin.mobile {
+      margin-bottom: 1rem;
+      padding: 0.5rem 2rem;
+    }
   }
 
   .card {
@@ -58,10 +62,18 @@ import Layout from '@/layouts/Layout.astro';
     }
     &__wrapper {
       display: grid;
-      gap: 1.5rem;
       grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
       @include mixin.mobile {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+    &__body {
+      h2 {
+        @include mixin.mobile {
+          font-size: 1.2rem;
+        }
       }
     }
   }
