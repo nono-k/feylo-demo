@@ -1,0 +1,97 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="section">
+    <h1>画像の無限ループ</h1>
+    <div class="stack">
+      <div class="marquee" data-direction="left">
+        <div class="marquee__wrap">
+          {
+            Array.from({ length: 5}, (_, i) => (
+            <div class="marquee__img">
+              <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+            </div>
+            ))
+          }
+          {
+            Array.from({ length: 5}, (_, i) => (
+            <div class="marquee__img">
+              <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+            </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="marquee" data-direction="right">
+        <div class="marquee__wrap">
+          {
+            Array.from({ length: 5}, (_, i) => (
+            <div class="marquee__img">
+              <img src=`https://picsum.photos/640/360?random=${i+5}` alt="" fetchpriority="high">
+            </div>
+            ))
+          }
+          {
+            Array.from({ length: 5}, (_, i) => (
+            <div class="marquee__img">
+              <img src=`https://picsum.photos/640/360?random=${i+5}` alt="" fetchpriority="high">
+            </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .section {
+    margin-block: 2rem;
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+  }
+
+  .stack {
+    > * + * {
+      margin-top: 1.5rem;
+    }
+  }
+
+  .marquee {
+    --count: 5;
+    --marquee-image-max-width: 300px;
+    --marquee-image-width: max(var(--marquee-image-max-width), 100cqi / 5);
+    --gap: var(--marquee-gap, 1rem);
+    --animation-duration: 50s;
+    overflow-x: hidden;
+    &[data-direction="left"] {
+      --animation-direction: initial;
+    }
+    &[data-direction="right"] {
+      --animation-direction: reverse;
+    }
+    &__wrap {
+      display: grid;
+      grid-auto-columns: var(--marquee-image-width);
+      grid-auto-flow: column;
+      column-gap: var(--gap);
+      --translate-left-to: calc(var(--marquee-image-width) * var(--count) + var(--gap) * var(--count));
+      animation-name: marquee;
+      animation-duration: var(--animation-duration);
+      animation-timing-function: linear;
+      animation-direction: var(--animation-direction);
+      animation-iteration-count: infinite;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      translate: calc(var(--translate-left-to) * -1);
+    }
+  }
+</style>
