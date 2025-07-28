@@ -1,0 +1,164 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <section class="section">
+    <div class="container">
+      <h1>画像が縦に流れ続ける<br>アニメーション</h1>
+      <div class="box">
+        <div class="marquee" data-direction="up">
+          <div class="marquee__wrap">
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/360/640?random=${i}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/360/640?random=${i}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="marquee" data-direction="down">
+          <div class="marquee__wrap">
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/640/360?random=${i+5}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/640/360?random=${i+5}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="marquee" data-direction="up">
+          <div class="marquee__wrap">
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/360/640?random=${i+10}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/360/640?random=${i+10}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="marquee" data-direction="down">
+          <div class="marquee__wrap">
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/640/360?random=${i+15}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+            {
+              Array.from({ length: 4}, (_, i) => (
+              <div class="marquee__img">
+                <img src=`https://picsum.photos/640/360?random=${i+15}` alt="" fetchpriority="high">
+              </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style lang="scss">
+  .section {
+    height: 100vh;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+      @include mixin.mobile {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+    height: 100%;
+    @include mixin.mobile {
+      display: block;
+      margin-top: 1rem;
+    }
+  }
+
+  .box {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    height: 85vh;
+    border: 1px solid #000;
+    border-radius: 1rem;
+    overflow: hidden;
+    @include mixin.mobile {
+      margin-top: 2rem;
+      height: 70vh;
+    }
+  }
+
+  .marquee {
+    --count: 4;
+    --marquee-image-max-height: 300px;
+    --marquee-image-height: max(var(--marquee-image-max-height), 100cqb / var(--count));
+    --gap: 1rem;
+    --animation-duration: 40s;
+    overflow: hidden;
+    &[data-direction="up"] {
+      --animation-direction: initial;
+    }
+    &[data-direction="down"] {
+      --animation-direction: reverse;
+    }
+    &__wrap {
+      display: grid;
+      grid-auto-rows: var(--marquee-image-height);
+      grid-auto-flow: row;
+      row-gap: var(--gap);
+      --translate-up-to: calc(var(--marquee-image-height) * var(--count) + var(--gap) * var(--count));
+      animation-name: marquee;
+      animation-duration: var(--animation-duration);
+      animation-timing-function: linear;
+      animation-direction: var(--animation-direction);
+      animation-iteration-count: infinite;
+
+      img {
+        height: 100%;
+      }
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      translate: 0 calc(var(--translate-up-to) * -1);
+    }
+  }
+</style>
