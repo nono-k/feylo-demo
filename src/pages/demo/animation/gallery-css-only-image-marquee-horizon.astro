@@ -4,7 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 
 <Layout>
   <div class="section">
-    <h1>画像の無限ループ</h1>
+    <h1>画像が横に流れ続けるアニメーション</h1>
     <div class="stack">
       <div class="marquee" data-direction="left">
         <div class="marquee__wrap">
@@ -50,9 +50,12 @@ import Layout from '@/layouts/Layout.astro';
   .section {
     margin-block: 2rem;
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       text-align: center;
       margin-bottom: 3rem;
+      @include mixin.mobile {
+        font-size: 1.25rem;
+      }
     }
   }
 
@@ -65,8 +68,8 @@ import Layout from '@/layouts/Layout.astro';
   .marquee {
     --count: 5;
     --marquee-image-max-width: 300px;
-    --marquee-image-width: max(var(--marquee-image-max-width), 100cqi / 5);
-    --gap: var(--marquee-gap, 1rem);
+    --marquee-image-width: max(var(--marquee-image-max-width), 100cqi / var(--count));
+    --gap: 1rem;
     --animation-duration: 50s;
     overflow-x: hidden;
     &[data-direction="left"] {
