@@ -17,7 +17,6 @@ import Layout from '@/layouts/Layout.astro';
             <h2>タイトル0{i+1}</h2>
             <p>Lorem ipsum dolor sit amet consectetur.</p>
           </div>
-          <div class="card__border"></div>
         </div>
       ))
     }
@@ -81,6 +80,7 @@ import Layout from '@/layouts/Layout.astro';
 
 <script>
   import { gsap } from 'gsap';
+
   const btn = document.querySelector('.btn');
   const cards = document.querySelectorAll('.card');
 
@@ -100,5 +100,4 @@ import Layout from '@/layouts/Layout.astro';
       stagger: 0.2,
     });
   };
-
 </script>
