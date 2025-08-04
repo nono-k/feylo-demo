@@ -1,0 +1,114 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <div class="grid">
+      <ul class="links">
+        <li><a href="#" data-color="green">緑リンク01</a></li>
+        <li><a href="#" data-color="green">緑リンク02</a></li>
+      </ul>
+      <ul class="links">
+        <li><a href="#" data-color="blue">青リンク01</a></li>
+        <li><a href="#" data-color="blue">青リンク02</a></li>
+      </ul>
+      <ul class="links">
+        <li><a href="#" data-color="yellow">黄リンク01</a></li>
+        <li><a href="#" data-color="yellow">黄リンク02</a></li>
+      </ul>
+      <ul class="links">
+        <li><a href="#" data-color="orange">オレンジリンク01</a></li>
+        <li><a href="#" data-color="orange">オレンジリンク02</a></li>
+      </ul>
+    </div>
+    <div class="mouse-cursor"></div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  :root {
+    --green: #53C197;
+    --blue: #7A9AC9;
+    --yellow: #F3E84D;
+    --orange: #F0A15E;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+    margin-block: 5rem;
+    @include mixin.mobile {
+      padding-inline: 1rem;
+      margin-block: 1rem 3rem;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5rem;
+    @include mixin.mobile {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .links {
+    > * + * {
+      margin-top: 2rem;
+    }
+    a {
+      padding: 0.5rem;
+      font-size: 1.25rem;
+      @include mixin.hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .mouse-cursor {
+    --mouse-cursor-color: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    opacity: 0.8;
+    background-color: var(--mouse-cursor-color);
+    pointer-events: none;
+    translate: -50% -50%;
+    transition-property: background-color, scale;
+    transition-duration: 0.3s;
+  }
+</style>
+
+<script>
+  const mouseCursor = document.querySelector('.mouse-cursor') as HTMLDivElement;
+
+  document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    mouseCursor.style.left = `${mouseX}px`;
+    mouseCursor.style.top = `${mouseY}px`;
+  });
+
+  const links = document.querySelectorAll('a');
+
+  links.forEach((link) => {
+    link.addEventListener('mouseenter', () => {
+      const color = link.dataset.color;
+      mouseCursor.style.setProperty('--mouse-cursor-color', `var(--${color})`);
+      mouseCursor.style.scale = '2';
+    });
+
+    link.addEventListener('mouseleave', () => {
+      mouseCursor.style.setProperty('--mouse-cursor-color', '#000');
+      mouseCursor.style.scale = '1';
+    });
+  });
+
+</script>
