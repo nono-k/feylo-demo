@@ -1,0 +1,138 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <h1>Mouse Stalker Image Trail</h1>
+    <div class="content">
+      {
+      Array.from({ length: 6 }, (_, i) => (
+        <div class="content__img">
+          <img src={`https://picsum.photos/300/200?random=${i}`} alt="">
+        </div>
+      ))
+    }
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    h1 {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      font-size: 3.8em;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      translate: -50% -50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  class ImageTrail {
+    el: HTMLElement;
+    imgContainers: NodeListOf<HTMLElement>;
+    images: HTMLImageElement[];
+    imagesTotal: number;
+    current: number;
+    mouseX: number;
+    mouseY: number;
+    lastTime: number;
+    showDelay: number;
+    visibleDuration: number;
+
+    constructor() {
+      this.el = document.querySelector('.content');
+      this.imgContainers = this.el.querySelectorAll('.content__img');
+      this.images = Array.from(this.imgContainers).map(c => c.querySelector('img'));
+      this.current = 0;
+      this.mouseX = window.innerWidth / 2;
+      this.mouseY = window.innerHeight / 2;
+      this.lastTime = 0;
+      this.showDelay = 200; // 画像の表示間隔(ms)
+
+      // 画像の読み込みが完了したらinit()を実行
+      this.waitForImagesToLoad().then(() => {
+        this.init();
+      })
+    }
+
+    waitForImagesToLoad() {
+      return Promise.all(this.images.map(img => new Promise(resolve => img.onload = resolve)));
+    }
+
+    init() {
+      this.imagesTotal = this.images.length;
+
+      window.addEventListener('mousemove', this.onMouseMove.bind(this));
+    }
+
+    onMouseMove(e) {
+      const now = performance.now();
+      if (now - this.lastTime < this.showDelay) return;
+
+      this.lastTime = now;
+
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+
+      this.showNextImage();
+    }
+
+    showNextImage() {
+      const img = this.imgContainers[this.current];
+
+      // 表示アニメーション
+      gsap.set(img, {
+        x: this.mouseX,
+        y: this.mouseY,
+        scale: 0.8,
+        opacity: 0,
+      });
+
+      gsap.to(img, {
+        duration: 0.4,
+        opacity: 1,
+        scale: 1,
+      });
+
+      // 一定時間後に非表示
+      gsap.to(img, {
+        duration: 0.4,
+        opacity: 0,
+        scale: 0.4,
+        delay: 0.4,
+        ease: 'power2.in'
+      })
+
+      this.current = (this.current + 1) % this.imagesTotal;
+    }
+  }
+
+  new ImageTrail();
+</script>
