@@ -38,7 +38,7 @@ import Layout from '@/layouts/Layout.astro';
   .card {
     position: relative;
     padding: 1rem;
-    box-shadow: 0 0 0 1px #e4e4e7;
+    border: 1px solid #e4e4e7;
     border-radius: 0.5rem;
     @include mixin.mobile {
       padding: 0.5rem;
@@ -47,7 +47,6 @@ import Layout from '@/layouts/Layout.astro';
       display: grid;
       gap: 0.5rem;
       grid-template-columns: repeat(3, 1fr);
-      position: relative;
       @include mixin.mobile {
         grid-template-columns: repeat(2, 1fr);
       }
