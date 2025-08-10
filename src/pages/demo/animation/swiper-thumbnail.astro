@@ -1,0 +1,87 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+    <div class="swiper main-swiper">
+      <div class="swiper-wrapper">
+        {
+          Array.from({ length: 6}, (_, i) => (
+            <div class="swiper-slide">
+              <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+            </div>
+          ))
+        }
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+    <div class="swiper thumbs-swiper">
+      <div class="swiper-wrapper">
+        {
+          Array.from({ length: 6}, (_, i) => (
+            <div class="swiper-slide">
+              <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+            </div>
+          ))
+        }
+      </div>
+      <div class="swiper-scrollbar"></div>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    max-width: 800px;
+    margin-inline: auto;
+    padding-inline: 30px;
+    margin-top: 3rem;
+  }
+
+  .thumbs-swiper {
+    margin-top: 0.5rem;
+
+    .swiper-slide {
+      filter: brightness(0.5);
+      &.swiper-slide-thumb-active {
+        filter: brightness(1);
+      }
+    }
+  }
+
+  .swiper-scrollbar {
+    position: static !important;
+    margin-top: 0.5rem;
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import 'swiper/css/bundle';
+  import { Navigation, Scrollbar, Thumbs } from 'swiper/modules';
+
+  const mainSwiper = new Swiper('.main-swiper', {
+    modules: [Navigation, Thumbs],
+    slidesPerView: 1,
+    navigation: {
+      prevEl: '.swiper-button-prev',
+      nextEl: '.swiper-button-next',
+    },
+    thumbs: {
+      swiper: '.thumbs-swiper',
+    }
+  });
+
+  const thumbsSwiper = new Swiper('.thumbs-swiper', {
+    modules: [Scrollbar],
+    slidesPerView: 3,
+    freeMode: true,
+    watchSlidesProgress: true,
+    scrollbar: {
+      el: '.swiper-scrollbar',
+      draggable: true,
+    },
+  })
+</script>
