@@ -1,0 +1,83 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="container">
+    <div class="card-frip">
+      <div class="card-frip__inner">
+        <div class="card-frip__face -front">
+          <h2>Front</h2>
+        </div>
+        <div class="card-frip__face -back">
+          <h2>Back</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+  }
+  .card-frip {
+    --rotate: 0deg;
+    width: 200px;
+    height: 300px;
+    perspective: 1000px; // 3D空間を定義
+  }
+  .card-frip__inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d; // 子要素を3D空間に固定
+    transition-property: rotate;
+    transition-duration: 0.5s;
+    rotate: y var(--rotate);
+  }
+  .card-frip__face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    backface-visibility: hidden; // 背面を非表示にする
+    border-radius: 1rem;
+    border: 1px solid #000;
+  }
+  .card-frip__face.-front {
+    background-color: #fff;
+    color: #000;
+  }
+  // 裏面は180度回転して見えないようにする
+  .card-frip__face.-back {
+    background-color: #000;
+    color: #fff;
+    rotate: y 180deg;
+  }
+</style>
+
+<script>
+  const fripCard = document.querySelector('.card-frip') as HTMLElement;
+
+  fripCard.addEventListener('mouseenter', (e) => {
+    const rect = fripCard.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const half = rect.width / 2;
+
+    if (x > half) {
+      fripCard.style.setProperty('--rotate', '180deg');
+    } else {
+      fripCard.style.setProperty('--rotate', '-180deg');
+    }
+  });
+
+  fripCard.addEventListener('mouseleave', () => {
+    fripCard.style.setProperty('--rotate', '0deg');
+  });
+</script>
