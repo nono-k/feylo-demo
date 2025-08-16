@@ -9,7 +9,7 @@ import Layout from '@/layouts/Layout.astro';
       {
       Array.from({ length: 6 }, (_, i) => (
         <div class="content__img">
-          <img src={`https://picsum.photos/300/200?random=${i}`} alt="">
+          <img src={`https://picsum.photos/300/200?random=${i}`} alt="" fetchpriority="high">
         </div>
       ))
     }
