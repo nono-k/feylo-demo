@@ -1,0 +1,178 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="container">
+
+    <h1 class="title">Swiper Multiple</h1>
+
+    <div class="wrap">
+
+      <div class="swiper swiper-main">
+        <div class="swiper-wrapper">
+          {
+            Array.from({ length: 5}, (_, i) => (
+              <div class="swiper-slide">
+                <div class="swiper-slide-img">
+                  <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+                </div>
+                <div class="swiper-slide-content">
+                  <div class="swiper-slide-title">Title 0{i+1}</div>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate optio nihil delectus magnam, quaerat est.</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="swiper swiper-sub">
+        <div class="swiper-wrapper">
+          {
+            Array.from({ length: 5}, (_, i) => (
+              <div class="swiper-slide">
+                <div class="swiper-slide-img">
+                  <img src=`https://picsum.photos/640/360?random=${i}` alt="" fetchpriority="high">
+                </div>
+                <div class="swiper-slide-content">
+                  <div class="swiper-slide-title">Title 0{i+1}</div>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. .</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="swiper-button-wrap">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    padding-inline: 30px;
+  }
+
+  .title {
+    margin-block: 1rem 1.5rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+
+    @include mixin.phone {
+      flex-direction: column;
+      row-gap: 20px;
+    }
+  }
+
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-main {
+    .swiper-slide-content {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      @include mixin.phone {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  .swiper-sub {
+    align-self: start;
+  }
+
+  .swiper-slide-content {
+    margin-top: 0.5rem;
+
+    p {
+      margin-top: 0.5rem;
+    }
+  }
+
+  .swiper-slide-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    @include mixin.phone {
+      font-size: 1.2rem;
+    }
+  }
+
+  .swiper-button-wrap {
+    position: absolute;
+    top: 26.1%;
+    right: 8.7%;
+    background: #fff;
+    border: 2px solid #000;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    column-gap: 16px;
+    padding: 8px 16px;
+    z-index: 1;
+    @include mixin.phone {
+      position: static;
+    }
+  }
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    position: static;
+    --swiper-navigation-size: 16px;
+    --swiper-navigation-color: #000;
+    flex-shrink: 0;
+    margin-top: 0;
+  }
+
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import 'swiper/css/bundle';
+  import { Navigation } from 'swiper/modules';
+
+  const mainSwiperEl = document.querySelector('.swiper-main') as HTMLElement;
+  const subSwiperEl = document.querySelector('.swiper-sub') as HTMLElement;
+
+  const mainSwiper = new Swiper(mainSwiperEl, {
+    modules: [Navigation],
+    loop: true,
+    loopAdditionalSlides: 1,
+    slidesPerView: 1,
+  });
+
+  const subSwiper = new Swiper(subSwiperEl, {
+    modules: [Navigation],
+    loop: true,
+    loopAdditionalSlides: 1,
+    initialSlide: 1,
+    slidesPerView: 1.5,
+    spaceBetween: 8,
+    breakpoints: {
+      549: {
+        slidesPerView: 2.5,
+      }
+    },
+    navigation: {
+      prevEl: '.swiper-button-prev',
+      nextEl: '.swiper-button-next',
+    },
+    on: {
+      slideChange: (swiper) => {
+        const index = swiper.realIndex === 0 ? swiper.slides.length : swiper.realIndex;
+        mainSwiper.slideToLoop(index - 1);
+      }
+    }
+  });
+</script>
